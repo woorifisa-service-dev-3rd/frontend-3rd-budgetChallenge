@@ -12,7 +12,7 @@ $npm run dev
 
 #커밋 규칙
 브랜치명: 카테고리/기능명 <br>
-feature/login-page <br>
+feature/login <br>
 
 커밋 메세지: [파트] 기능명: 설명 <br>
 git commit -m "[FE] login: 페이지 UI 완성" <br>
