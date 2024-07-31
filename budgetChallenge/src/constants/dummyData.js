@@ -14,3 +14,5 @@ export const DummyData_History = [
         itemCost: '50000'
     }, 
 ]
+
+export const DummyData_Challenge = "5만원 챌린지"
