@@ -1,60 +1,80 @@
-import React from "react";
-import { DummyData_Budget } from "../../constants/dummyData";
-
-// 주의 월요일 반환
-const getMondayOfWeek = (dateString) => {
-  const date = new Date(dateString);
-  const day = date.getDay();
-  const diff = (day === 0 ? -6 : 1) - day; // 일요일 0, 월요일 1 ... 토요일 6
-  const monday = new Date(date);
-  monday.setDate(date.getDate() + diff);
-  return monday;
-};
-
-// 현재 날짜의 요일 반환
-const getTodayDayName = () => {
-  const today = new Date();
-  const dayNames = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
-  return dayNames[today.getDay() === 0 ? 6 : today.getDay() - 1];
-};
-
-// 주어진 날짜의 요일 반환
-const getDayName = (dateString) => {
-  const date = new Date(dateString);
-  const dayNames = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
-  return dayNames[date.getDay() === 0 ? 6 : date.getDay() - 1];
-};
+import React, { useState } from "react";
 
 const ChallengeWeek = () => {
-  // 월요일부터 시작하는 주의 요일 계산
-  const startDate = DummyData_Budget[0]?.startDate || new Date();
-  const startMonday = getMondayOfWeek(startDate);
+  // 사용자 클릭 -> 이번 주, 지난 주
+  const [currentDate, setCurrentDate] = useState(new Date());
 
-  // 현재 날짜 요일
-  const todayDayName = getTodayDayName();
+  // 시작 주
+  const getStartOfWeek = (date) => {
+    const day = new Date(date);
+    const dayOfWeek = day.getDay(); // 일: 0, 월: 1 ... 토: 6
+    const startOfWeek = new Date(day);
+    startOfWeek.setDate(day.getDate() - dayOfWeek); // 월요일부터 시작하게 하려면 +1
+    return startOfWeek;
+  };
 
-  // 요일 목록
-  const dayNames = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+  // 주의 시작 날짜(push: date 객체 복사 -> dates 배열에 추가)
+  const getWeekDates = (startOfWeek) => {
+    const dates = [];
+    const date = new Date(startOfWeek);
+    for (let i = 0; i < 7; i++) {
+      dates.push(new Date(date));
+      date.setDate(date.getDate() + 1);
+    }
+    return dates;
+  };
+
+  // 다른 주로 변경
+  const changeWeek = (weeks) => {
+    const newDate = new Date(currentDate);
+    newDate.setDate(newDate.getDate() + weeks * 7);
+    setCurrentDate(newDate);
+  };
+
+  // 이번 주로 다시
+  const resetToCurrentWeek = () => {
+    setCurrentDate(new Date());
+  };
+
+  // 시작 주, 시작 일
+  const startOfweek = getStartOfWeek(currentDate);
+  const weekDates = getWeekDates(startOfweek);
+  // getMonth(): 0부터 시작 -> + 1 => 실제 월
+  const title = `${startOfweek.getFullYear()}/${startOfweek.getMonth() + 1}`;
+  const endOfWeek = new Date(startOfweek);
+  endOfWeek.setDate(endOfWeek.getDate() + 6);
+  //    주의 날짜 범위
+  const rangeTitle =
+    endOfWeek.getMonth() !== startOfweek.getMonth()
+      ? `${title} - ${endOfWeek.getFullYear()}/${endOfWeek.getMonth() + 1}`
+      : title;
 
   return (
     <div>
-      <h1>Challenge Week Days</h1>
-      <ul className="flex">
-        {dayNames.map((dayName, index) => (
-          <li
-            key={index}
-            className={`p-4 border ${
-              dayName === todayDayName
-                ? "border-green-600 border-2"
-                : "border-gray-300"
-            }`}
+      <div className="text-center">
+        <p id="calender" className="text-xl">
+          {rangeTitle}
+        </p>
+      </div>
+      <div className="flex justify-center">
+        <button onClick={() => changeWeek(-1)} className="hover:bg-gray-300">
+          ⬅
+        </button>
+        <button onClick={resetToCurrentWeek}>🔄</button>
+        <button onClick={() => changeWeek(+1)} className="hover:bg-gray-300">
+          ➡
+        </button>
+      </div>
+      <div className="flex justify-around">
+        {weekDates.map((date) => (
+          <span
+            key={date.toISOString()}
+            className="border-solid border-2 border-gray-300 min-w-16 min-h-32 text-center"
           >
-            <div>{dayName}</div>
-            {/* 여기에 지출 내역 반영 */}
-            <li>메롱</li>
-          </li>
+            {date.getDate()}
+          </span>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

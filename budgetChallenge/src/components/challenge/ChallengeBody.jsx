@@ -8,7 +8,6 @@ const ChallengeBody = () => {
       <div>ChallengeBody</div>
       <ChallengeTitle />
       <ChallengeWeek />
-      <ChallengeWeek />
     </>
   );
 };
