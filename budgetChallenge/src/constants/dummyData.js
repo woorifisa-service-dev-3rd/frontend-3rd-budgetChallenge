@@ -20,10 +20,6 @@ export const DummyData_Budget = [
     id: 1,
     budgetTitle: "5만원 챌린지",
     budgetAmount: 50000,
-  },
-  {
-    id: 2,
-    budgetTitle: "10만원 챌린지",
-    budgetAmount: 100000,
+    startDate: "2024/07/29",
   },
 ];
