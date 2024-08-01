@@ -3,7 +3,7 @@ import HistoryBody from './HistoryBody'
 import HistoryHeader from './HistoryHeader'
 import { DummyData_History } from '../../constants/dummyData'
 
-const History = () => {
+const History = ({ onAddHistory }) => {
   const [historyforms, setHistoryforms] = useState(DummyData_History);
 
   const addHistoryFormoHandler = ({ date, miniText, itemName, itemCost }) => {
@@ -18,8 +18,10 @@ const History = () => {
 
     const updatedHistory = [...historyforms, newHistory];
     setHistoryforms(updatedHistory);
+    onAddHistory(updatedHistory);
   }
-  
+
+  console.log(historyforms);
 
   return (
     <div>

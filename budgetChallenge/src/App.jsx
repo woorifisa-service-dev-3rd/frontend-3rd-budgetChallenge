@@ -6,9 +6,6 @@ import { budgetCheck } from './components/budget/budgetCheck';
 import  DefaultLayout from './layouts/DefaultLayout';
 import LeftBody from './layouts/LeftBody';
 import RightBody from './layouts/RightBody';
-
-
-import { useState } from 'react'
 import './App.css'
 import History from './components/history/History'
 
@@ -17,6 +14,7 @@ function App() {
   const [isModalClosed, setIsModalClosed] = useState(false); // 모달창이 닫힌 뒤로 열리지 않게 함
   const [initialDate, setInitialDate] = useState('');
   const [budgets, setBudgets] = useState([{budgetAmount: 50000}]);
+    const [history, setHistory] = useState();
 
   const closeModal = () => {
     setOpenModal(false);
@@ -62,6 +60,13 @@ function App() {
     setBudgets([newBudget]);
   }
 
+  // 기록 추가 핸들러
+  const addHistoryHandler = ({ history }) => {
+    setHistory(history);
+  }
+  
+  console.log(history);
+
   return (
     <>
       <DefaultLayout>
@@ -79,7 +84,7 @@ function App() {
               <LeftBody budgets={budgets}></LeftBody>
             </div>
             <div className="w-1/2 bg-green-200 p-4">
-              <RightBody budgets={budgets}></RightBody>
+              <RightBody budgets={budgets} onAddHistory={addHistoryHandler}></RightBody>
             </div>
           </div>
         </section>
@@ -92,7 +97,6 @@ function App() {
           </Modal>,
           document.body)}
       </DefaultLayout>
-      <History />
     </>
   )
 }
