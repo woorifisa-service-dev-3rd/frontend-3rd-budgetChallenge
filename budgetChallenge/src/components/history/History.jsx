@@ -19,6 +19,7 @@ const History = () => {
     const updatedHistory = [...historyforms, newHistory];
     setHistoryforms(updatedHistory);
   }
+  
 
   return (
     <div>
