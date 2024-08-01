@@ -1,8 +1,16 @@
 import React, { useState } from "react";
+import { DummyData_Budget } from "../../constants/dummyData";
+import ChallengeDay from "./ChallengeDay";
 
 const ChallengeWeek = () => {
+  // DummyData 받아오기
+  const inputStartDate = new Date(DummyData_Budget[0].startDate);
+
+  // 오늘 날짜
+  const today = new Date();
+
   // 사용자 클릭 -> 이번 주, 지난 주
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDate, setCurrentDate] = useState(inputStartDate);
 
   // 시작 주
   const getStartOfWeek = (date) => {
@@ -67,12 +75,15 @@ const ChallengeWeek = () => {
       </div>
       <div className="flex justify-around">
         {weekDates.map((date) => (
-          <span
+          <ChallengeDay
             key={date.toISOString()}
-            className="border-solid border-2 border-gray-300 min-w-16 min-h-32 text-center"
-          >
-            {date.getDate()}
-          </span>
+            date={date}
+            isToday={
+              date.getDate() === today.getDate() &&
+              date.getMonth() === today.getMonth() &&
+              date.getFullYear() === today.getFullYear()
+            }
+          />
         ))}
       </div>
     </div>
