@@ -21,7 +21,7 @@ const HistoryForm = ({ onAdd, onClose }) => {
             <div className='border-2'>
                 <div>
                     <p>date</p>
-                    <input type='text' id='date' value={date || ''} onChange={event => setDate(event.target.value)} />
+                    <input type='text' id='date' value={date || ''} onChange={event => setDate(new Date(event.target.value))} />
                 </div>
                 <div>
                     <p>miniText</p>
