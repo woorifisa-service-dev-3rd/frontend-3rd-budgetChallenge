@@ -11,7 +11,7 @@ export const DummyData_History = [
         date: '2024/08/01',
         mini_Text: '쇼핑',
         itemName: '반팔티',
-        itemCost: '30000'
+        itemCost: '50000'
     }, 
 ]
 

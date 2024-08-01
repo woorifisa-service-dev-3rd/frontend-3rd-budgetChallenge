@@ -23,7 +23,6 @@ const BudgetBody = () => {
                 <div>
                     <BudgetCalculator goal={challengeAmount} formatCurrency={formatCurrency}></BudgetCalculator>
                 </div>
-                <div>메시지</div>
             </div>
         </>
     )
