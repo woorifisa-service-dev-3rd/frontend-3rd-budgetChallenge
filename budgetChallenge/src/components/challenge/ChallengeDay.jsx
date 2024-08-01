@@ -6,6 +6,13 @@ const ChallengeDay = ({ date, isToday }) => {
   const spentItems = DummyData_History.filter(
     (spent) => spent.date.toDateString() === date.toDateString()
   );
+
+  // 합성된 itemCost 계산
+  const totalSpent = spentItems.reduce(
+    (total, spent) => total + parseInt(spent.itemCost, 10),
+    0
+  );
+
   return (
     <>
       <div
@@ -16,11 +23,11 @@ const ChallengeDay = ({ date, isToday }) => {
         {date.getDate()}
         {spentItems.length > 0 && (
           <div>
-            {spentItems.map((spent) => (
-              <div key={spent.id} className="text-xs">
-                <span>-{spent.itemCost}</span>
+            {spentItems.length > 0 && (
+              <div className="text-xs">
+                <span>-{totalSpent}</span>
               </div>
-            ))}
+            )}
           </div>
         )}
       </div>

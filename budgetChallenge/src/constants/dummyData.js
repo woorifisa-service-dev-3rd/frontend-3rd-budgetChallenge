@@ -13,6 +13,13 @@ export const DummyData_History = [
     itemName: "새로살구",
     itemCost: "5500",
   },
+  {
+    id: 3,
+    date: new Date("2024/08/01"),
+    mini_Text: "술",
+    itemName: "새로살구",
+    itemCost: "9000",
+  },
 ];
 
 export const DummyData_Budget = [
