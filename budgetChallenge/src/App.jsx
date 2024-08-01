@@ -8,6 +8,7 @@ import LeftBody from './layouts/LeftBody';
 import RightBody from './layouts/RightBody';
 import './App.css'
 import History from './components/history/History'
+import { ChallengeProvider } from './contexts/ChallengeContext';
 
 function App() {
   const [openModal, setOpenModal] = useState(false);
@@ -61,11 +62,11 @@ function App() {
   }
 
   // 기록 추가 핸들러
-  const addHistoryHandler = ({ history }) => {
-    setHistory(history);
+  const addHistoryHandler = (history) => {
+    console.log('hst', history);
+    // setHistory(history);
   }
-  
-  console.log(history);
+
 
   return (
     <>
@@ -79,14 +80,20 @@ function App() {
           </div>
         </header>
         <section className="h-screen m-0 py-8" onClick={handleClick}>
-          <div className="flex h-full">
-            <div className="w-1/2 bg-yellow-100 p-4">
-              <LeftBody budgets={budgets}></LeftBody>
+
+
+          <ChallengeProvider>
+            <div className="flex h-full">
+              <div className="w-1/2 bg-yellow-100 p-4">
+                <LeftBody budgets={budgets}></LeftBody>
+              </div>
+              <div className="w-1/2 bg-green-200 p-4">
+                <RightBody budgets={budgets} onAddHistory={addHistoryHandler}></RightBody>
+              </div>
             </div>
-            <div className="w-1/2 bg-green-200 p-4">
-              <RightBody budgets={budgets} onAddHistory={addHistoryHandler}></RightBody>
-            </div>
-          </div>
+          </ChallengeProvider>
+
+
         </section>
         {/* 모달창 호출 부분 */}
         {openModal && createPortal(
