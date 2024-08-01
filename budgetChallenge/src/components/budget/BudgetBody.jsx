@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { DummyData_Budget } from '../dummyData'
 import BudgetCalculator from './BudgetCalculator'
 
 const BudgetBody = ({ budget }) => {

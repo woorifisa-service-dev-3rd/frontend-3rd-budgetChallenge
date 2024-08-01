@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import DefaultLayout from './layouts/DefaultLayout'
-import LeftBody from './layouts/LeftBody'
-import RightBody from './layouts/RightBody'
 import { createPortal } from 'react-dom';
-import Modal from './constants/ui/Modal';
-import BudgetForm from './constants/budget/BudgetForm';
-import { budgetCheck } from './constants/budget/budgetCheck';
+import Modal from './components/ui/Modal';
+import BudgetForm from './components/budget/BudgetForm';
+import { budgetCheck } from './components/budget/budgetCheck';
+import  DefaultLayout from './layouts/DefaultLayout';
+import LeftBody from './layouts/LeftBody';
+import RightBody from './layouts/RightBody';
+
 
 
 function App() {

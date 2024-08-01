@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { DummyData_History } from '../dummyData'
 import { budgetMessage } from './budgetMessage';
+import { DummyData_History } from '../../constants/dummyData';
 
 const BudgetCalculator = ({ budgetAmount, formatCurrency }) => {
 

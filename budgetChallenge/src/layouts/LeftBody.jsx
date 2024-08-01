@@ -1,5 +1,5 @@
 import React from 'react'
-import Budget from '../constants/budget/Budget'
+import Budget from '../components/budget/Budget'
 
 const LeftBody = ({ budgets }) => {
 
