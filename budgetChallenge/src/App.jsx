@@ -19,9 +19,9 @@ function App() {
             <div className="w-1/2 bg-yellow-100 p-4">
               <LeftBody></LeftBody>
             </div>
-            <div className="w-1/2 bg-green-200 p-4">
+            {/* <div className="w-1/2 bg-green-200 p-4">
               <RightBody></RightBody>
-            </div>
+            </div> */}
           </div>
         </section>
       </DefaultLayout>
