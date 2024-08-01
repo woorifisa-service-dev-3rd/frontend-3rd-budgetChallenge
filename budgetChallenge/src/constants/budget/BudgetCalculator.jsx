@@ -2,28 +2,30 @@ import React, { useEffect, useState } from 'react'
 import { DummyData_History } from '../dummyData'
 import { budgetMessage } from './budgetMessage';
 
-const BudgetCalculator = ({ goal, formatCurrency }) => {
+const BudgetCalculator = ({ budgetAmount, formatCurrency }) => {
 
-  const [sum, setSum] = useState(goal);
+  const [sum, setSum] = useState(budgetAmount || 0);
   const [expense, setExpense] = useState(0);
 
   useEffect(() => {
     const sumCalculateHandler = () => {
-      let expense = 0;
+      let totalExpense = 0;
       DummyData_History.map(item => {
         const itemCost = parseFloat(item.itemCost);
-        expense += itemCost;
-      });
+        if (!isNaN(itemCost)) {
+          totalExpense += itemCost;
+        }
+      });      
 
-      setSum(sum - expense);
-      setExpense(expense);
+      setExpense(totalExpense);  
+      setSum(prevSum => (budgetAmount || 0) - totalExpense);
     };
-
+    
     sumCalculateHandler();
-  }, [goal]);
+  }, [budgetAmount]);
 
   // 소비 진행 비율 계산
-  const progressPercentage = Math.min((expense / goal) * 100, 100);
+  const progressPercentage = Math.min((expense / budgetAmount) * 100, 100);
   const message = budgetMessage(progressPercentage);
 
   return (
@@ -54,3 +56,4 @@ const BudgetCalculator = ({ goal, formatCurrency }) => {
 };
 
 export default BudgetCalculator
+

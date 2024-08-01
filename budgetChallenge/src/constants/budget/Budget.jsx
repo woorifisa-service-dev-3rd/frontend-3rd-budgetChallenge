@@ -1,10 +1,10 @@
 import React from 'react'
 import BudgetBody from './BudgetBody'
 
-const Budget = () => {
+const Budget = ({ budget }) => {
   return (
     <div>
-        <BudgetBody></BudgetBody>
+        <BudgetBody budget={budget}></BudgetBody>
     </div>
   )
 }
