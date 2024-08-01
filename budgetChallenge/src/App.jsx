@@ -8,6 +8,9 @@ import LeftBody from './layouts/LeftBody';
 import RightBody from './layouts/RightBody';
 
 
+import { useState } from 'react'
+import './App.css'
+import History from './components/history/History'
 
 function App() {
   const [openModal, setOpenModal] = useState(false);
@@ -89,6 +92,7 @@ function App() {
           </Modal>,
           document.body)}
       </DefaultLayout>
+      <History />
     </>
   )
 }
