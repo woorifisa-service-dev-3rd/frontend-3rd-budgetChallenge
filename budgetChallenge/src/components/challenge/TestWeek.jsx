@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
-import { getStartOfWeek, getWeekDates } from '../../utils/dateUtils'
+import React, { useState, useEffect } from 'react';
+import { useStore } from '../../contexts/ChallengeContext';
+import { getStartOfWeek, getWeekDates } from '../../utils/dateUtils';
 import { sumItemCostByDate } from '../../utils/expenseUtils';
-import { DummyData_Budget, DummyData_History } from '../../constants/dummyData';
 import TestDay from './TestDay';
 
 const TestWeek = () => {
+    const { budgets = [], history = [] } = useStore(); // ChallengeContext에서 데이터 가져오기
+
     // 초기 설정 및 상태관리
-    const inputStartDate = new Date(DummyData_Budget[0].startDate); // TODO: props - modal: startDate 받기
+    const inputStartDate = budgets.length > 0 ? new Date(budgets[0].startDate) : new Date();
     const today = new Date();
-    const [currentDate, setCurrentDate] = useState(inputStartDate); // 현재 표시된 주의 날짜를 상태로 관리
+    const [currentDate, setCurrentDate] = useState(inputStartDate);
 
     // 주 변경, 리셋 함수
     const changeWeek = (weeks) => { // weeks: +1 or -1
@@ -25,16 +27,16 @@ const TestWeek = () => {
     const weekDates = getWeekDates(startOfWeek);
 
     // 날짜 범위, 제목
-    const title = `${startOfWeek.getFullYear()}.${startOfWeek.getMonth() + 1}` // getMonth(): 첫 시작이 0이기 때문에 +1
+    const title = `${startOfWeek.getFullYear()}.${startOfWeek.getMonth() + 1}`; // getMonth(): 첫 시작이 0이기 때문에 +1
     const endOfWeek = new Date(startOfWeek);
     endOfWeek.setDate(endOfWeek.getDate() + 6);
     const rangeTitle = endOfWeek.getMonth() !== startOfWeek.getMonth()
         ? `${title} - ${endOfWeek.getFullYear()}.${endOfWeek.getMonth() + 1}` : title;
 
     // 일자별 지출 합계 및 잔액 계산
-    const total = DummyData_Budget[0].budgetAmount;
+    const total = budgets.length > 0 ? budgets[0].budgetAmount : 0;
     const [isTotal, setIsTotal] = useState(total);
-    const result = sumItemCostByDate(DummyData_History);
+    const result = sumItemCostByDate(history); // ChallengeContext의 데이터 사용
 
     const calculateBalance = () => {
         let balance = isTotal;
@@ -42,25 +44,23 @@ const TestWeek = () => {
         // 날짜별 지출을 저장할 객체 (일별 총 지출금액이 일별 지출횟수만큼 반복되는 이슈 해결 위함)
         const usedCosts = {};
 
-        for (let i = 0; i < DummyData_History.length; i++) {
-            const dateKey = DummyData_History[i].date.toISOString().split("T")[0];
-            const spentTotalCostToday = result[dateKey];
+        // weekDates 배열의 날짜를 순회
+        weekDates.forEach((weekDate) => {
+            const dateKey = weekDate.date.toISOString().split("T")[0];
+            const spentTotalCostToday = result[dateKey] || 0;
 
-            // 해당 날짜에 대한 지출이 이미 처리되었다면 skip
-            if (usedCosts[dateKey]) continue;
-
-            for (let j = 0; j < weekDates.length; j++) {
-                if (weekDates[j].date.toISOString().split("T")[0] === dateKey) {
-                    balance -= spentTotalCostToday;
-                    weekDates[j] = { ...weekDates[j], spentTotalCostToday, balance }
-                    // 지출 금액 처리 완료 기록
-                    usedCosts[dateKey] = true;
-                }
+            if (!usedCosts[dateKey]) {
+                balance -= spentTotalCostToday;
+                weekDate.spentTotalCostToday = spentTotalCostToday;
+                weekDate.balance = balance;
+                usedCosts[dateKey] = true;
             }
-        }
+        });
     };
-    calculateBalance();
 
+    useEffect(() => {
+        calculateBalance();
+    }, [history, currentDate]) // 데이터나 날짜가 변경될 때마다 계산
 
     return (
         <>
@@ -85,11 +85,13 @@ const TestWeek = () => {
                         }
                         spentTotalCostToday={item.spentTotalCostToday || 0}
                         balance={item.balance || 0}
+                        budgetAmount={total} // 예산 금액
+                        startDate={inputStartDate} // 시작 날짜
                     />
                 ))}
             </div>
         </>
-    )
-}
+    );
+};
 
-export default TestWeek
+export default TestWeek;

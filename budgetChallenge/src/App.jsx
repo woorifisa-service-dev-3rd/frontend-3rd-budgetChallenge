@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Modal from './components/ui/Modal';
 import BudgetForm from './components/budget/BudgetForm';
@@ -44,7 +44,7 @@ function App() {
   // 날짜 포맷팅 함수
   const formatDate = (date) => {
     const [year, month, day] = date.split('-');
-    return `${year}/${month.padStart(2, '0')}/${day.padStart(2, '0')}`;
+    return `${year} /${month.padStart(2, '0')}/${day.padStart(2, '0')}`;
   }
 
   // 예산 객체 추가 핸들러
@@ -53,7 +53,7 @@ function App() {
     const formattedDate = formatDate(startDate);
 
     const newBudget = {
-      id: self.crypto.randomUUID(),
+      id: window.crypto.randomUUID(),
       budgetTitle,
       budgetAmount,
       startDate: formattedDate
@@ -73,28 +73,26 @@ function App() {
       <DefaultLayout>
         <header onClick={handleClick}>
           <div>
-            <a to="/" className='flex flex-col items-center'>
+            <a href="/" className='flex flex-col items-center'>
               <h1 className='py-4 max-w-max text-5xl'>Budget</h1>
               <h1 className='max-w-max text-5xl'>Challenge</h1>
             </a>
           </div>
         </header>
+
         <section className="h-screen m-0 py-8" onClick={handleClick}>
-
-
           <ChallengeProvider>
             <div className="flex h-full">
               <div className="w-1/2 bg-yellow-100 p-4">
-                <LeftBody budgets={budgets}></LeftBody>
+                <LeftBody budgets={budgets} />
               </div>
               <div className="w-1/2 bg-green-200 p-4">
-                <RightBody budgets={budgets} onAddHistory={addHistoryHandler}></RightBody>
+                <RightBody budgets={budgets} onAddHistory={addHistoryHandler} />
               </div>
             </div>
           </ChallengeProvider>
-
-
         </section>
+
         {/* 모달창 호출 부분 */}
         {openModal && createPortal(
           <Modal onClose={closeModal}>
