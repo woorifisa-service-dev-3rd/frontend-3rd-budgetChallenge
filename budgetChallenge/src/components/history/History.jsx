@@ -1,16 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import HistoryBody from './HistoryBody'
 import HistoryHeader from './HistoryHeader'
 import { DummyData_History } from '../../constants/dummyData'
 import { useStore } from '../../contexts/ChallengeContext'
 
-const History = ({ onAddHistory }) => {
-  const [historyforms, setHistoryforms] = useState(DummyData_History);
-
-  const {_, setData } = useStore();
+const History = () => {
+  const { history, setHistory } = useStore();
+  const [historyforms, setHistoryforms] = useState(history);
 
   const addHistoryFormoHandler = ({ date, miniText, itemName, itemCost }) => {
-
+    
     const newHistory = {
       id: self.crypto.randomUUID(),
       date,
@@ -21,11 +20,9 @@ const History = ({ onAddHistory }) => {
 
     const updatedHistory = [...historyforms, newHistory];
     setHistoryforms(updatedHistory);
-    // onAddHistory(updatedHistory);
-    setData(updatedHistory);
+    setHistory(updatedHistory);
   }
-
-  console.log(historyforms);
+  console.log(history);
 
   return (
     <div>

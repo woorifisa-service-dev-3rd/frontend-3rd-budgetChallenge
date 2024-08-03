@@ -1,9 +1,9 @@
 import React from 'react'
 import History from '../components/history/History'
 
-const RightBody = ({ onAddHistory }) => {
+const RightBody = () => {
   return (
-    <History onAddHistory={onAddHistory}/>
+    <History />
   )
 }
 

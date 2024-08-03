@@ -1,28 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import { budgetMessage } from './budgetMessage';
-import { DummyData_History } from '../../constants/dummyData';
+import { useStore } from '../../contexts/ChallengeContext'
 
 const BudgetCalculator = ({ budgetAmount, formatCurrency }) => {
-
+  const { history } = useStore();
   const [sum, setSum] = useState(budgetAmount || 0);
   const [expense, setExpense] = useState(0);
 
   useEffect(() => {
     const sumCalculateHandler = () => {
       let totalExpense = 0;
-      DummyData_History.map(item => {
+      history.map(item => {
         const itemCost = parseFloat(item.itemCost);
         if (!isNaN(itemCost)) {
           totalExpense += itemCost;
         }
       });      
-
       setExpense(totalExpense);  
       setSum(prevSum => (budgetAmount || 0) - totalExpense);
     };
     
     sumCalculateHandler();
-  }, [budgetAmount]);
+  }, [budgetAmount, history]);
 
   // 소비 진행 비율 계산
   const progressPercentage = Math.min((expense / budgetAmount) * 100, 100);
