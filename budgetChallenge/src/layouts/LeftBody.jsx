@@ -1,17 +1,13 @@
-import React from 'react'
-import Budget from '../components/budget/Budget'
-import { useStore } from '../contexts/ChallengeContext';
+import React from "react";
+import ChallengeBody from "../components/challenge/ChallengeBody";
 
-const LeftBody = ({ budgets }) => {
-
-  const { data, _ } = useStore();
-  console.log('data', data); // 날짜값
-
-  const budget = budgets[0] || {};
-
+const LeftBody = () => {
   return (
-    <div>LeftBody</div>
-  )
-}
+    <>
+      <div>LeftBody</div>
+      <ChallengeBody />
+    </>
+  );
+};
 
 export default LeftBody;

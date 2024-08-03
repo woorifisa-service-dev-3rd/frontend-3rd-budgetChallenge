@@ -1,6 +1,5 @@
 import React from "react";
 import ChallengeTitle from "./ChallengeTitle";
-import ChallengeWeek from "./ChallengeWeek";
 import TestWeek from "./TestWeek";
 
 const ChallengeBody = () => {
@@ -8,7 +7,6 @@ const ChallengeBody = () => {
     <>
       <div>ChallengeBody</div>
       <ChallengeTitle />
-      {/* <ChallengeWeek /> */}
       <TestWeek />
     </>
   );
