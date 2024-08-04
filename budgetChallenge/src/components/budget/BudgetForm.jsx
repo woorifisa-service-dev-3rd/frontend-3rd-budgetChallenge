@@ -6,13 +6,14 @@ const BudgetForm = ({ initialDate, onAdd, onClose, onValueSelect }) => {
   const [startDate, setStartDate] = useState(initialDate);
 
   // Context에서 선택된 값을 설정합니다.
-  const { setSelectedDate, setBudgetTitle: setContextBudgetTitle, addBudget } = useChallenge();
+  const { setSelectedDate, setBudgetTitle: setContextBudgetTitle, addBudget, resetDummyData } = useChallenge();
 
   useEffect(() => {
     setStartDate(initialDate);
   }, [initialDate]);
 
   const addBudgetHandler = () => {
+    resetDummyData();
     addBudget(budgetTitle, startDate); // Context에 예산 추가
     setSelectedDate(startDate);
     setContextBudgetTitle(budgetTitle);

@@ -14,8 +14,6 @@ function App() {
   const [openModal, setOpenModal] = useState(false);
   const [isModalClosed, setIsModalClosed] = useState(false); // 모달창이 닫힌 뒤로 열리지 않게 함
   const [initialDate, setInitialDate] = useState('');
-  const { addBudget } = useChallenge(); // Context에서 addBudget 가져오기
-  // const [history, setHistory] = useState();
 
   const closeModal = () => {
     setOpenModal(false);
@@ -41,51 +39,22 @@ function App() {
     setInitialDate(getTodayDate());
   }, []);
 
-  const addBudgetHandler = ({ budgetTitle, startDate }) => {
-    addBudget(budgetTitle, startDate); // Context의 addBudget 호출
-  }
-
   const addHistoryHandler = (history) => {
     addHistoryHandler(history);
   }
 
-  // // 날짜 포맷팅 함수
-  // const formatDate = (date) => {
-  //   const [year, month, day] = date.split('-');
-  //   return `${year} /${month.padStart(2, '0')}/${day.padStart(2, '0')}`;
-  // }
+  const addBudgetHandler = ({ budgetTitle, startDate }) => {
+    addBudget(budgetTitle, startDate);
+  }
 
-  // // 예산 객체 추가 핸들러
-  // const addBudgetHandler = ({ budgetTitle, startDate }) => {
-  //   const budgetAmount = budgetCheck(budgetTitle);
-  //   const formattedDate = formatDate(startDate);
-
-  //   const newBudget = {
-  //     id: window.crypto.randomUUID(),
-  //     budgetTitle,
-  //     budgetAmount,
-  //     startDate: formattedDate
-  //   }
-  //   setBudgetAmount(budgetAmount); // ChallengeContext에 budgetAmount 업데이트
-  // };
-
-  // setBudgetAmount(budgetAmount) // ChallengeContext에 budgetAmount 업데이트
-
-  // 기록 추가 핸들러
-  // const addHistoryHandler = (history) => {
-  //   console.log('hst', history);
-  //   // setHistory(history);
-  // }
 
   return (
     <ChallengeProvider>
       <DefaultLayout>
         <header onClick={handleClick}>
-          <div>
-            <a href="/" className='flex flex-col items-center'>
+          <div className='flex flex-col items-center'>
               <h1 className='py-4 max-w-max text-5xl'>Budget</h1>
               <h1 className='max-w-max text-5xl'>Challenge</h1>
-            </a>
           </div>
         </header>
 

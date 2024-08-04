@@ -1,14 +1,14 @@
 import React from 'react'
 import { useChallenge } from '../../contexts/ChallengeContext';
 
-const Modal = ({ children, onClsoe }) => {
+const Modal = ({ children, onClose }) => {
   const { setSelectedDate, setBudgetTitle } = useChallenge();
 
   const handleValueSelection = (value) => {
     setSelectedDate(value.startDate); // startDate를 업데이트
     setBudgetTitle(value.budgetTitle); // budgetTitle을 업데이트
     console.log('Modal selected value:', value); // 여기서 값 확인
-    if (onClsoe) onClsoe();
+    if (onClose) onClose();
   };
 
   return (

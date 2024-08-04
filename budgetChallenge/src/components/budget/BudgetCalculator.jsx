@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { budgetMessage } from './budgetMessage';
-import { DummyData_History } from '../../constants/dummyData';
+import { budgetMessage } from './budgetMessage'
+import { useChallenge } from '../../contexts/ChallengeContext'
 
 const BudgetCalculator = ({ budgetAmount, formatCurrency }) => {
 
+  const { history } = useChallenge();
   const [sum, setSum] = useState(budgetAmount || 0);
   const [expense, setExpense] = useState(0);
 
   useEffect(() => {
     const sumCalculateHandler = () => {
       let totalExpense = 0;
-      DummyData_History.map(item => {
+      history.map(item => {
         const itemCost = parseFloat(item.itemCost);
         if (!isNaN(itemCost)) {
           totalExpense += itemCost;
@@ -18,14 +19,14 @@ const BudgetCalculator = ({ budgetAmount, formatCurrency }) => {
       });
 
       setExpense(totalExpense);
-      setSum(prevSum => (budgetAmount || 0) - totalExpense);
+      setSum((budgetAmount || 0) - totalExpense);
     };
 
     sumCalculateHandler();
-  }, [budgetAmount]);
+  }, [budgetAmount, history]);
 
   // 소비 진행 비율 계산
-  const progressPercentage = Math.min((expense / budgetAmount) * 100, 100);
+  const progressPercentage = budgetAmount > 0 ? Math.min((expense / budgetAmount) * 100, 100) : 100;
   const message = budgetMessage(progressPercentage);
 
   return (
@@ -38,7 +39,7 @@ const BudgetCalculator = ({ budgetAmount, formatCurrency }) => {
         <div className='mt-4'>
           <div className='w-11/12 bg-gray-300 rounded-md overflow-hidden my-5 ml-6'>
             <div
-              className='bg-teal-400 text-white text-center text-sm font-semibold h-6 flex items-center justify-center rounded-md'
+              className={`text-white text-center text-sm font-semibold h-6 flex items-center justify-center rounded-md ${sum < 0 ? 'bg-red-500' : 'bg-teal-400'}`}
               style={{ width: `${progressPercentage}%` }}
             >
               {Math.round(progressPercentage)}%
