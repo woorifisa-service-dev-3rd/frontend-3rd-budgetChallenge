@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
-import HistoryBody from './HistoryBody'
-import HistoryHeader from './HistoryHeader'
-import { useStore } from '../../contexts/ChallengeContext'
+import React from 'react';
+import HistoryBody from './HistoryBody';
+import HistoryHeader from './HistoryHeader';
+import { useChallenge } from '../../contexts/ChallengeContext';
 
-const History = ({ onAddHistory }) => {
-  const [historyforms, setHistoryforms] = useState([]);
-  const { setData } = useStore();
+const History = () => {
+  const { history, addHistory } = useChallenge();
 
   const addHistoryFormHandler = ({ date, miniText, itemName, itemCost }) => {
     const newHistory = {
@@ -14,31 +13,18 @@ const History = ({ onAddHistory }) => {
       miniText,
       itemName,
       itemCost
-    }
+    };
 
-    const updatedHistory = [...historyforms, newHistory];
-    setHistoryforms(updatedHistory);
-
-    if (typeof setData === 'function') {
-      setData(updatedHistory);
-    } else {
-      console.log('setData is not a function');
-    }
-
-    if (onAddHistory) {
-      onAddHistory(updatedHistory);
-    }
+    addHistory(newHistory);
   };
-
-  console.log(historyforms);
 
   return (
     <div>
       <h2>사용내역</h2>
       <HistoryHeader onAdd={addHistoryFormHandler} />
-      <HistoryBody historyforms={historyforms} />
+      <HistoryBody historyforms={history} />
     </div>
-  )
-}
+  );
+};
 
-export default History
+export default History;

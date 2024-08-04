@@ -2,20 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Modal from './components/ui/Modal';
 import BudgetForm from './components/budget/BudgetForm';
-import { budgetCheck } from './components/budget/budgetCheck';
 import DefaultLayout from './layouts/DefaultLayout';
 import LeftBody from './layouts/LeftBody';
 import RightBody from './layouts/RightBody';
 import './App.css'
-import History from './components/history/History'
-import { ChallengeProvider } from './contexts/ChallengeContext';
+// import History from './components/history/History'
+import { ChallengeProvider, useChallenge } from './contexts/ChallengeContext';
+import ChallengeTitle from './components/challenge/ChallengeTitle';
 
 function App() {
   const [openModal, setOpenModal] = useState(false);
   const [isModalClosed, setIsModalClosed] = useState(false); // 모달창이 닫힌 뒤로 열리지 않게 함
   const [initialDate, setInitialDate] = useState('');
-  const [budgets, setBudgets] = useState([{ budgetAmount: 50000 }]);
-  const [history, setHistory] = useState();
+  const { addBudget } = useChallenge(); // Context에서 addBudget 가져오기
+  // const [history, setHistory] = useState();
 
   const closeModal = () => {
     setOpenModal(false);
@@ -41,35 +41,44 @@ function App() {
     setInitialDate(getTodayDate());
   }, []);
 
-  // 날짜 포맷팅 함수
-  const formatDate = (date) => {
-    const [year, month, day] = date.split('-');
-    return `${year} /${month.padStart(2, '0')}/${day.padStart(2, '0')}`;
-  }
-
-  // 예산 객체 추가 핸들러
   const addBudgetHandler = ({ budgetTitle, startDate }) => {
-    const budgetAmount = budgetCheck(budgetTitle);
-    const formattedDate = formatDate(startDate);
-
-    const newBudget = {
-      id: window.crypto.randomUUID(),
-      budgetTitle,
-      budgetAmount,
-      startDate: formattedDate
-    }
-    setBudgets([newBudget]);
+    addBudget(budgetTitle, startDate); // Context의 addBudget 호출
   }
+
+  const addHistoryHandler = (history) => {
+    addHistoryHandler(history);
+  }
+
+  // // 날짜 포맷팅 함수
+  // const formatDate = (date) => {
+  //   const [year, month, day] = date.split('-');
+  //   return `${year} /${month.padStart(2, '0')}/${day.padStart(2, '0')}`;
+  // }
+
+  // // 예산 객체 추가 핸들러
+  // const addBudgetHandler = ({ budgetTitle, startDate }) => {
+  //   const budgetAmount = budgetCheck(budgetTitle);
+  //   const formattedDate = formatDate(startDate);
+
+  //   const newBudget = {
+  //     id: window.crypto.randomUUID(),
+  //     budgetTitle,
+  //     budgetAmount,
+  //     startDate: formattedDate
+  //   }
+  //   setBudgetAmount(budgetAmount); // ChallengeContext에 budgetAmount 업데이트
+  // };
+
+  // setBudgetAmount(budgetAmount) // ChallengeContext에 budgetAmount 업데이트
 
   // 기록 추가 핸들러
-  const addHistoryHandler = (history) => {
-    console.log('hst', history);
-    // setHistory(history);
-  }
-
+  // const addHistoryHandler = (history) => {
+  //   console.log('hst', history);
+  //   // setHistory(history);
+  // }
 
   return (
-    <>
+    <ChallengeProvider>
       <DefaultLayout>
         <header onClick={handleClick}>
           <div>
@@ -81,16 +90,15 @@ function App() {
         </header>
 
         <section className="h-screen m-0 py-8" onClick={handleClick}>
-          <ChallengeProvider>
-            <div className="flex h-full">
-              <div className="w-1/2 bg-yellow-100 p-4">
-                <LeftBody budgets={budgets} />
-              </div>
-              <div className="w-1/2 bg-green-200 p-4">
-                <RightBody budgets={budgets} onAddHistory={addHistoryHandler} />
-              </div>
+          <ChallengeTitle />
+          <div className="flex h-full">
+            <div className="w-1/2 bg-yellow-100 p-4">
+              <LeftBody />
             </div>
-          </ChallengeProvider>
+            <div className="w-1/2 bg-green-200 p-4">
+              <RightBody onAddHistory={addHistoryHandler} />
+            </div>
+          </div>
         </section>
 
         {/* 모달창 호출 부분 */}
@@ -102,7 +110,7 @@ function App() {
           </Modal>,
           document.body)}
       </DefaultLayout>
-    </>
+    </ChallengeProvider>
   )
 }
 

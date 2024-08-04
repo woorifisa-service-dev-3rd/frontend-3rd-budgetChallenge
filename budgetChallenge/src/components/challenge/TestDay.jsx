@@ -1,6 +1,11 @@
 import React from 'react';
 
+// TestDay.jsx
 const TestDay = ({ date, day, isToday, spentTotalCostToday, balance, budgetAmount, startDate }) => {
+    console.log('TestDay - Date:', date);
+    console.log('TestDay - Spent Total Cost Today:', spentTotalCostToday);
+    console.log('TestDay - Balance:', balance);
+
     // 배경색 선정
     const dayBackgroundColor = () => {
         const start = new Date(startDate.toDateString());
