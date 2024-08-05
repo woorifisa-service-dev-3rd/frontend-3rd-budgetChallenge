@@ -6,12 +6,12 @@ import { sumItemCostByDate } from '../../utils/expenseUtils';
 import TestDay from './TestDay';
 
 const TestWeek = () => {
-    const { budgets = [], history = [], budgetAmount } = useChallenge();
+    const { budgets = [], history = [], budgetAmount, selectedDate } = useChallenge();
 
     // 초기 설정 및 상태관리
     const inputStartDate = budgets.length > 0 ? new Date(budgets[0].startDate) : new Date();
     const today = new Date();
-    const [currentDate, setCurrentDate] = useState(inputStartDate);
+    const [currentDate, setCurrentDate] = useState(selectedDate || inputStartDate);
     const [weekDates, setWeekDates] = useState([]);
     const [balances, setBalances] = useState({});
 
@@ -29,6 +29,13 @@ const TestWeek = () => {
         setBalances(calculatedBalances);
     }, [history, weekDates, budgetAmount]);
 
+    // 선택된 날짜로 이동
+    useEffect(() => {
+        if (selectedDate) {
+            setCurrentDate(new Date(selectedDate));
+        }
+    }, [selectedDate]);
+    
     // 주 변경, 리셋 함수
     const changeWeek = (weeks) => {
         const newDate = new Date(currentDate);
