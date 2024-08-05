@@ -37,7 +37,7 @@
     </td>
     <td align="center">
       <a href="https://github.com/yaejinkong">
-        <b>유승아</b>
+        <b>공예진</b>
       </a>
     </td>
   </tr>
