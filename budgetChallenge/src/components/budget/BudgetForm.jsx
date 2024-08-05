@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react'
+import { useChallenge } from '../../contexts/ChallengeContext';
 
-const BudgetForm = ({ initialDate, onAdd, onClose }) => {
+const BudgetForm = ({ initialDate, onAdd, onClose, onValueSelect }) => {
   const [budgetTitle, setBudgetTitle] = useState('무지출 챌린지');
   const [startDate, setStartDate] = useState(initialDate);
+
+  // Context에서 선택된 값을 설정합니다.
+  const { setSelectedDate, setBudgetTitle: setContextBudgetTitle, addBudget, resetDummyData } = useChallenge();
 
   useEffect(() => {
     setStartDate(initialDate);
   }, [initialDate]);
 
   const addBudgetHandler = () => {
-    const newBudget = { budgetTitle, startDate };
-    onAdd(newBudget);
+    resetDummyData();
+    addBudget(budgetTitle, startDate); // Context에 예산 추가
+    setSelectedDate(startDate);
+    setContextBudgetTitle(budgetTitle);
+    onValueSelect && onValueSelect({ budgetTitle, startDate }); // 콜백 호출
     onClose();
-
   }
 
   return (
@@ -21,7 +27,7 @@ const BudgetForm = ({ initialDate, onAdd, onClose }) => {
       <form className='my-2'>
         <div>
           <label className='block mb-2 text-xl text-white font-bold' htmlFor="budgetTitle">챌린지</label>
-          <select className='w-full p-3  border-orange-200 bg-orange-100 text-gray-900 rounded' id="budgetTitle"
+          <select className='w-full p-3 border-orange-200 bg-orange-100 text-gray-900 rounded' id="budgetTitle"
             value={budgetTitle} onChange={event => setBudgetTitle(event.target.value)}>
             <option value="무지출 챌린지">무지출 챌린지</option>
             <option value="5만원 챌린지">5만원 챌린지</option>

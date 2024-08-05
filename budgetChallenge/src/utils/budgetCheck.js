@@ -9,7 +9,7 @@ export const budgetCheck = (budgetName) => {
     } else if (budgetName === '100만원 챌린지') {
         budgetAmount += 1000000;
     } else if (budgetName === 'FLEX 챌린지') {
-        budgetAmount += 5000000;
+        budgetAmount += 9999999999;
     }
     return budgetAmount
 };

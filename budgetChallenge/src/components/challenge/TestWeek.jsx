@@ -1,71 +1,74 @@
-import React, { useState } from 'react'
-import { getStartOfWeek, getWeekDates } from '../../utils/dateUtils'
+// TestWeek.jsx
+import React, { useState, useEffect } from 'react';
+import { useChallenge } from '../../contexts/ChallengeContext';
+import { getStartOfWeek, getWeekDates } from '../../utils/dateUtils';
 import { sumItemCostByDate } from '../../utils/expenseUtils';
-import { DummyData_Budget, DummyData_History } from '../../constants/dummyData';
 import TestDay from './TestDay';
 
 const TestWeek = () => {
-    // 초기 설정 및 상태관리
-    const inputStartDate = new Date(DummyData_Budget[0].startDate); // TODO: props - modal: startDate 받기
-    const today = new Date();
-    const [currentDate, setCurrentDate] = useState(inputStartDate); // 현재 표시된 주의 날짜를 상태로 관리
+    const { budgets = [], history = [], budgetAmount } = useChallenge();
 
-    // 주 변경, 리셋 함수
-    const changeWeek = (weeks) => { // weeks: +1 or -1
-        const newDate = new Date(currentDate);
-        newDate.setDate(newDate.getDate() + weeks * 7); // -7(전주) or +7(차주)
-        setCurrentDate(newDate);
-    }
-    const resetToCurrentWeek = () => {
-        setCurrentDate(today);
-    }
+    // 초기 설정 및 상태관리
+    const inputStartDate = budgets.length > 0 ? new Date(budgets[0].startDate) : new Date();
+    const today = new Date();
+    const [currentDate, setCurrentDate] = useState(inputStartDate);
+    const [weekDates, setWeekDates] = useState([]);
+    const [balances, setBalances] = useState({});
 
     // 주간 날짜 계산
-    const startOfWeek = getStartOfWeek(currentDate);
-    const weekDates = getWeekDates(startOfWeek);
+    useEffect(() => {
+        const startOfWeek = getStartOfWeek(currentDate);
+        setWeekDates(getWeekDates(startOfWeek));
+    }, [currentDate]);
+
+    // 지출 합계 및 잔액 계산
+    useEffect(() => {
+        const result = sumItemCostByDate(history);
+        const calculatedBalances = calculateBalance(result, weekDates, budgetAmount);
+        console.log('Calculated Balances:', calculatedBalances); // 디버깅 로그 추가
+        setBalances(calculatedBalances);
+    }, [history, weekDates, budgetAmount]);
+
+    // 주 변경, 리셋 함수
+    const changeWeek = (weeks) => {
+        const newDate = new Date(currentDate);
+        newDate.setDate(newDate.getDate() + weeks * 7);
+        setCurrentDate(newDate);
+    };
+
+    const resetToCurrentWeek = () => {
+        setCurrentDate(today);
+    };
 
     // 날짜 범위, 제목
-    const title = `${startOfWeek.getFullYear()}.${startOfWeek.getMonth() + 1}` // getMonth(): 첫 시작이 0이기 때문에 +1
+    const startOfWeek = getStartOfWeek(currentDate);
+    const title = `${startOfWeek.getFullYear()}.${startOfWeek.getMonth() + 1}`;
     const endOfWeek = new Date(startOfWeek);
     endOfWeek.setDate(endOfWeek.getDate() + 6);
     const rangeTitle = endOfWeek.getMonth() !== startOfWeek.getMonth()
         ? `${title} - ${endOfWeek.getFullYear()}.${endOfWeek.getMonth() + 1}` : title;
 
-    // 일자별 지출 합계 및 잔액 계산
-    const total = DummyData_Budget[0].budgetAmount;
-    const [isTotal, setIsTotal] = useState(total);
-    const result = sumItemCostByDate(DummyData_History);
+    // 잔액 계산 함수
+    // TODO: 0원이 되면 다시 최초예산으로 돌아가는 오류 수정 필요
+    const calculateBalance = (result, weekDates, budgetAmount) => {
+        let balance = budgetAmount;
+        const updatedBalances = {};
 
-    const calculateBalance = () => {
-        let balance = isTotal;
+        weekDates.forEach((weekDate) => {
+            const dateKey = weekDate.date.toISOString().split("T")[0];
+            const spentTotalCostToday = result[dateKey] || 0;
+            balance -= spentTotalCostToday;
+            // 디버깅 로그 추가
+            console.log(`Date: ${dateKey}, Spent: ${spentTotalCostToday}, Balance: ${balance}`);
+            updatedBalances[dateKey] = { spentTotalCostToday, balance };
+        });
 
-        // 날짜별 지출을 저장할 객체 (일별 총 지출금액이 일별 지출횟수만큼 반복되는 이슈 해결 위함)
-        const usedCosts = {};
-
-        for (let i = 0; i < DummyData_History.length; i++) {
-            const dateKey = DummyData_History[i].date.toISOString().split("T")[0];
-            const spentTotalCostToday = result[dateKey];
-
-            // 해당 날짜에 대한 지출이 이미 처리되었다면 skip
-            if (usedCosts[dateKey]) continue;
-
-            for (let j = 0; j < weekDates.length; j++) {
-                if (weekDates[j].date.toISOString().split("T")[0] === dateKey) {
-                    balance -= spentTotalCostToday;
-                    weekDates[j] = { ...weekDates[j], spentTotalCostToday, balance }
-                    // 지출 금액 처리 완료 기록
-                    usedCosts[dateKey] = true;
-                }
-            }
-        }
+        return updatedBalances;
     };
-    calculateBalance();
-
 
     return (
         <>
             <div>TestWeek</div>
-            {/* 제목, 이동버튼(전주, 금주, 차주), 주간달력 */}
             <div>{rangeTitle}</div>
             <div>
                 <button onClick={() => changeWeek(-1)} className='hover:bg-gray-300'>⬅️</button>
@@ -73,23 +76,31 @@ const TestWeek = () => {
                 <button onClick={() => changeWeek(1)} className='hover:bg-gray-300'>➡️</button>
             </div>
             <div className='flex justify-around'>
-                {weekDates.map((item, index) => (
-                    <TestDay
-                        key={index}
-                        date={item.date}
-                        day={item.date.getDay()}
-                        isToday={
-                            item.date.getFullYear() === today.getFullYear() &&
-                            item.date.getMonth() === today.getMonth() &&
-                            item.date.getDate() === today.getDate()
-                        }
-                        spentTotalCostToday={item.spentTotalCostToday || 0}
-                        balance={item.balance || 0}
-                    />
-                ))}
+                {weekDates.map((item, index) => {
+                    const dateKey = item.date.toISOString().split("T")[0];
+                    const spentTotalCostToday = balances[dateKey]?.spentTotalCostToday || 0;
+                    const balance = balances[dateKey]?.balance || budgetAmount;
+
+                    return (
+                        <TestDay
+                            key={index}
+                            date={item.date}
+                            day={item.date.getDay()}
+                            isToday={
+                                item.date.getFullYear() === today.getFullYear() &&
+                                item.date.getMonth() === today.getMonth() &&
+                                item.date.getDate() === today.getDate()
+                            }
+                            spentTotalCostToday={spentTotalCostToday}
+                            balance={balance}
+                            budgetAmount={budgetAmount}
+                            startDate={inputStartDate}
+                        />
+                    );
+                })}
             </div>
         </>
-    )
-}
+    );
+};
 
-export default TestWeek
+export default TestWeek;

@@ -1,10 +1,10 @@
 import React from 'react'
 import HistoryItem from './HistoryItem'
 
-const HistoryBody = ({historyforms}) => {
+const HistoryBody = ({ historyforms }) => {
   return (
     <div className='border-2'>
-        {historyforms.map(historyform => <HistoryItem historyform={historyform} key={historyform.id}/>)}
+      {historyforms.map(historyform => <HistoryItem historyform={historyform} key={historyform.id} />)}
     </div>
   )
 }

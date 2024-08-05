@@ -1,14 +1,11 @@
-import React from "react";
-import { DummyData_Budget } from "../../constants/dummyData";
+import React from 'react';
+import { useChallenge } from '../../contexts/ChallengeContext';
 
 const ChallengeTitle = () => {
+  const { budgetTitle } = useChallenge(); // ChallengeContext에서 budgetTitle 가져오기
+
   return (
-    <>
-      <div>ChallengeTitle</div>
-      {DummyData_Budget.map((challenge) => (
-        <p key={challenge.id}>{challenge.budgetTitle}</p>
-      ))}
-    </>
+    <h2>{budgetTitle || "Default Title"}</h2> // budgetTitle이 없으면 Default Title을 표시
   );
 };
 

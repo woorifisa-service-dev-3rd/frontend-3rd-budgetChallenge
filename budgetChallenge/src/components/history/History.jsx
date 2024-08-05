@@ -1,39 +1,30 @@
-import React, { useState } from 'react'
-import HistoryBody from './HistoryBody'
-import HistoryHeader from './HistoryHeader'
-import { DummyData_History } from '../../constants/dummyData'
-import { useStore } from '../../contexts/ChallengeContext'
+import React from 'react';
+import HistoryBody from './HistoryBody';
+import HistoryHeader from './HistoryHeader';
+import { useChallenge } from '../../contexts/ChallengeContext';
 
-const History = ({ onAddHistory }) => {
-  const [historyforms, setHistoryforms] = useState(DummyData_History);
+const History = () => {
+  const { history, addHistory } = useChallenge();
 
-  const {_, setData } = useStore();
-
-  const addHistoryFormoHandler = ({ date, miniText, itemName, itemCost }) => {
-
+  const addHistoryFormHandler = ({ date, miniText, itemName, itemCost }) => {
     const newHistory = {
-      id: self.crypto.randomUUID(),
+      id: window.crypto.randomUUID(),
       date,
       miniText,
       itemName,
       itemCost
-    }
+    };
 
-    const updatedHistory = [...historyforms, newHistory];
-    setHistoryforms(updatedHistory);
-    // onAddHistory(updatedHistory);
-    setData(updatedHistory);
-  }
-
-  console.log(historyforms);
+    addHistory(newHistory);
+  };
 
   return (
     <div>
       <h2>사용내역</h2>
-      <HistoryHeader onAdd={addHistoryFormoHandler}/>
-      <HistoryBody historyforms={historyforms}/>
+      <HistoryHeader onAdd={addHistoryFormHandler} />
+      <HistoryBody historyforms={history} />
     </div>
-  )
-}
+  );
+};
 
-export default History
+export default History;
