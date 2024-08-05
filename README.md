@@ -70,7 +70,7 @@
 
 ## ✅프로젝트 개발 가이드라인
 <details>
-  <summary>프로젝트 clone 방법</summary>
+  <summary><b>프로젝트 clone 방법</b></summary>
  <ul>
   <li>로컬에 폴더 하나 만들어서 git bash 열기 → $git clone (우리 레파지토리 링크 복붙)</li>
   <li>개인 폴더 경로/frontend-3rd-budgetChallenge/budgetChallenge 로 이동 → $npm i</li>
@@ -79,7 +79,7 @@
 </details>
 
 <details>
- <summary>커밋 규칙</summary>
+ <summary><b>커밋 규칙</b></summary>
  <ul>
   <li>브랜치명: 카테고리/기능명 (ex: feature/login)</li>
   <li>커밋 메세지: [파트] 기능명: 설명 (ex: git commit -m "[FE] login: 페이지 UI 완성")</li>
@@ -87,7 +87,7 @@
 </details>
 
 <details>
- <summary>변수명 규칙</summary>
+ <summary><b>변수명 규칙</b></summary>
  <ul>
   <li>JS: camelCase</li>
  </ul>
