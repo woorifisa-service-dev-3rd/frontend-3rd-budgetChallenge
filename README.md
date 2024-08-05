@@ -77,6 +77,7 @@ JS는 camelCase로 변수 작성<br>
 </table>
 
 <br>
+
 ## 🖼️UI 스타일 가이드라인
 [가이드라인 - 추후 반영 예정](https://www.figma.com/design/pv8HAZKijlOzfLcr3AtEgT/Wise-Design-System-(Community)?node-id=0-1&t=gWTx6nsgUXC3LPNZ-0)
 
