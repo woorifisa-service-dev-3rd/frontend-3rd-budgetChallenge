@@ -1,24 +1,4 @@
 # frontend-3th-budgetChallenge
-
-#프로젝트 clone 방법
-로컬에 폴더 하나 만들어서 git bash 열어서 <br>
-$git clone (우리 레파지토리 링크 복붙)
-
-개인 폴더 경로/frontend-3rd-budgetChallenge/budgetChallenge 로 이동하여 <br>
-$npm i
- 
-실행 확인 명령어
-$npm run dev
-
-#커밋 규칙
-브랜치명: 카테고리/기능명 <br>
-feature/login <br>
-
-커밋 메세지: [파트] 기능명: 설명 <br>
-git commit -m "[FE] login: 페이지 UI 완성" <br>
-
-JS는 camelCase로 변수 작성<br>
-
 ## 💡프로젝트 소개
 사용자가 도전할 주간 예산을 선택하고, 예산 내에서 사용했다면 성공! 초과했다면 실패라고 알려주는 주간 예산 챌린지 프로젝트입니다.
 
@@ -81,5 +61,31 @@ JS는 camelCase로 변수 작성<br>
 ## 🖼️UI 스타일 가이드라인
 [가이드라인 - 추후 반영 예정](https://www.figma.com/design/pv8HAZKijlOzfLcr3AtEgT/Wise-Design-System-(Community)?node-id=0-1&t=gWTx6nsgUXC3LPNZ-0)
 
+<br>
 ## ⚙️구현 특이 사항
 ### Context API
+
+<br>
+<details>
+  <summary>프로젝트 clone 방법</summary>
+ <ul>
+  <li>로컬에 폴더 하나 만들어서 git bash 열기 → $git clone (우리 레파지토리 링크 복붙)</li>
+  <li>개인 폴더 경로/frontend-3rd-budgetChallenge/budgetChallenge 로 이동 → $npm i</li>
+  <li>실행 확인 명령어: $npm run dev</li>
+ </ul>
+</details>
+
+<details>
+ <summary>커밋 규칙</summary>
+ <ul>
+  <li>브랜치명: 카테고리/기능명 (ex: feature/login)</li>
+  <li>커밋 메세지: [파트] 기능명: 설명 (ex: git commit -m "[FE] login: 페이지 UI 완성")</li>
+ </ul>
+</details>
+
+<details>
+ <summary>변수명 규칙</summary>
+ <ul>
+  <li>JS: camelCase</li>
+ </ul>
+</details>
