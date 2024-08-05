@@ -18,3 +18,67 @@ feature/login <br>
 git commit -m "[FE] login: 페이지 UI 완성" <br>
 
 JS는 camelCase로 변수 작성<br>
+
+## 💡프로젝트 소개
+사용자가 도전할 주간 예산을 선택하고, 예산 내에서 사용했다면 성공! 초과했다면 실패라고 알려주는 주간 예산 챌린지 프로젝트입니다.
+
+<br>
+
+## 👨‍💻팀원 소개
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Jieun-KWAK">
+        <img src="https://github.com/Jieun-KWAK.png" alt="곽지은" width="150" height="150"/>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/seonmin5">
+        <img src="https://github.com/seonmin5.png" alt="오선민" width="150" height="150"/>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/yaejinkong">
+        <img src="https://github.com/yaejinkong.png" alt="공예진" width="150" height="150"/>
+      </a>
+    </td>
+  </tr>
+   <tr>
+    <td align="center">
+      <a href="https://github.com/Jieun-KWAK">
+        <b>곽지은</b>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/seonmin5">
+        <b>오선민</b>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/yaejinkong">
+        <b>유승아</b>
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      사용내역 입력 구현<br>
+    </td>
+    <td align="center">
+      주간 예산 달력 구현<br>
+      Context API 구현
+    </td>
+    <td align="center">
+      예산 현황 화면 구현<br>
+      Context API 구현
+    </td>
+  </tr>
+</table>
+
+<br>
+## 🖼️UI 스타일 가이드라인
+[가이드라인 - 추후 반영 예정](https://www.figma.com/design/pv8HAZKijlOzfLcr3AtEgT/Wise-Design-System-(Community)?node-id=0-1&t=gWTx6nsgUXC3LPNZ-0)
+
+## ⚙️구현 특이 사항
+### Context API
