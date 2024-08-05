@@ -62,10 +62,13 @@
 [가이드라인 - 추후 반영 예정](https://www.figma.com/design/pv8HAZKijlOzfLcr3AtEgT/Wise-Design-System-(Community)?node-id=0-1&t=gWTx6nsgUXC3LPNZ-0)
 
 <br>
+
 ## ⚙️구현 특이 사항
 ### Context API
 
 <br>
+
+## ✅프로젝트 개발 가이드라인
 <details>
   <summary>프로젝트 clone 방법</summary>
  <ul>
